@@ -17,7 +17,7 @@ CatDistortionAudioProcessorEditor::CatDistortionAudioProcessorEditor (CatDistort
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize(610, 380);
     
     addAndMakeVisible(&disChoice);
     disChoice.addItem("Hard Clip", 1);
@@ -27,11 +27,19 @@ CatDistortionAudioProcessorEditor::CatDistortionAudioProcessorEditor (CatDistort
     disChoice.addListener(this);
     
     addAndMakeVisible(&Threshold);
+    Threshold.setSliderStyle(Slider::Rotary);
+    Threshold.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
+    Threshold.setTextValueSuffix(" Threshold");
     Threshold.setRange(0.0f, 1.0f, 0.001f);
+    Threshold.setValue(0.0f);
     Threshold.addListener(this);
     
     addAndMakeVisible(&Mix);
+    Mix.setSliderStyle(Slider::Rotary);
+    Mix.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
+    Mix.setTextValueSuffix(" Wet/Dry Mix");
     Mix.setRange(0.0f, 1.0f, 0.001f);
+    Mix.setValue(0.0f);
     Mix.addListener(this);
 }
 
@@ -43,18 +51,19 @@ CatDistortionAudioProcessorEditor::~CatDistortionAudioProcessorEditor()
 void CatDistortionAudioProcessorEditor::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
+    g.fillAll (Colours::darkred);
+    Image cat = ImageCache::getFromMemory (BinaryData::catSmash_png, BinaryData::catSmash_pngSize);
+    g.drawImageAt(cat, 151, 61);
     g.setColour (Colours::white);
-    g.setFont (15.0f);
+    g.setFont (20.0f);
     //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 }
 
 void CatDistortionAudioProcessorEditor::resized()
 {
-    disChoice.setBounds(50, 50, 200, 50);
-    Threshold.setBounds(50, 100, 200, 50);
-    Mix.setBounds(50, 150, 200, 50);
+    disChoice.setBounds(205, 10, 200, 50);
+    Threshold.setBounds(10, 220, 140, 140);
+    Mix.setBounds(460, 60, 140, 140);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }
