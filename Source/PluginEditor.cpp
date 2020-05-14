@@ -26,11 +26,16 @@ CatDistortionAudioProcessorEditor::CatDistortionAudioProcessorEditor (CatDistort
     disChoice.setSelectedId(1);
     disChoice.addListener(this);
     
+    addAndMakeVisible(&inGain);
+    inGain.setSliderStyle(Slider::Rotary);
+    inGain.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
+    inGain.setTextValueSuffix(" Input Gain");
+    
     addAndMakeVisible(&Threshold);
     Threshold.setSliderStyle(Slider::Rotary);
     Threshold.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
     Threshold.setTextValueSuffix(" Threshold");
-    Threshold.setRange(0.0f, 1.0f, 0.001f);
+    Threshold.setRange(0.0f, 0.25f, 0.001f);
     Threshold.setValue(0.0f);
     Threshold.addListener(this);
     
@@ -41,6 +46,11 @@ CatDistortionAudioProcessorEditor::CatDistortionAudioProcessorEditor (CatDistort
     Mix.setRange(0.0f, 1.0f, 0.001f);
     Mix.setValue(0.0f);
     Mix.addListener(this);
+    
+    addAndMakeVisible(&outGain);
+    outGain.setSliderStyle(Slider::Rotary);
+    outGain.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
+    outGain.setTextValueSuffix(" Make-Up Gain");
 }
 
 CatDistortionAudioProcessorEditor::~CatDistortionAudioProcessorEditor()
@@ -62,8 +72,10 @@ void CatDistortionAudioProcessorEditor::paint (Graphics& g)
 void CatDistortionAudioProcessorEditor::resized()
 {
     disChoice.setBounds(205, 10, 200, 50);
+    inGain.setBounds(10, 60, 140, 140);
     Threshold.setBounds(10, 220, 140, 140);
     Mix.setBounds(460, 60, 140, 140);
+    outGain.setBounds(460, 220, 140, 140);
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 }

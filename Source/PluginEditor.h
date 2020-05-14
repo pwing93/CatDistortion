@@ -39,8 +39,10 @@ private:
     CatDistortionAudioProcessor& processor;
     
     ComboBox disChoice;
+    Slider inGain;
     Slider Threshold;
     Slider Mix;
+    Slider outGain;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CatDistortionAudioProcessorEditor)
 };
