@@ -10,6 +10,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include <math.h>
 
 //==============================================================================
 CatDistortionAudioProcessor::CatDistortionAudioProcessor()
@@ -156,6 +157,9 @@ void CatDistortionAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
         
         for (int i = 0; i < buffer.getNumSamples(); i++)
         {
+            //Input Gain Stage
+            channelData[i] = channelData[i] * gain;
+            
             auto input = channelData[i];
             auto cleanOut = channelData[i];
             
@@ -206,8 +210,23 @@ void CatDistortionAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
                 }
             }
             
+            //atan Saturation algorithm
+            if (menuChoice == 4)
+            {
+                input = atan(input);
+            }
+            
+            //tanh Saturation algorithm
+            if (menuChoice == 5)
+            {
+                input = tanh(input);
+            }
+            
             //Formula for taking "Wet" affected Input signal and mixing back with "Dry" unaffected signal
             channelData[i] = ((1 - mix) * cleanOut) + (mix * input);
+            
+            //Output Make-up Gain stage
+            channelData[i] = channelData[i] * makeUp;
         }
     }
 }

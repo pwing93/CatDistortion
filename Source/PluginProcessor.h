@@ -55,9 +55,11 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    int menuChoice;
+    int menuChoice = 1;
     float thresh = 0.0f;
     float mix = 0.0f;
+    float gain = 1.0f;
+    float makeUp = 1.0f;
 
 private:
     //==============================================================================

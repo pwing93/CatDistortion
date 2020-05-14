@@ -23,34 +23,43 @@ CatDistortionAudioProcessorEditor::CatDistortionAudioProcessorEditor (CatDistort
     disChoice.addItem("Hard Clip", 1);
     disChoice.addItem("Soft Clip", 2);
     disChoice.addItem("Half-Wave Rect", 3);
-    disChoice.setSelectedId(1);
+    disChoice.addItem("atan Distortion", 4);
+    disChoice.addItem("tanh Distortion", 5);
+    disChoice.setSelectedId(processor.menuChoice);
     disChoice.addListener(this);
     
     addAndMakeVisible(&inGain);
     inGain.setSliderStyle(Slider::Rotary);
     inGain.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
     inGain.setTextValueSuffix(" Input Gain");
+    inGain.setRange(0.0f, 3.0f, 0.01f);
+    inGain.setValue(processor.gain);
+    inGain.addListener(this);
     
     addAndMakeVisible(&Threshold);
     Threshold.setSliderStyle(Slider::Rotary);
     Threshold.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
     Threshold.setTextValueSuffix(" Threshold");
-    Threshold.setRange(0.0f, 0.25f, 0.001f);
-    Threshold.setValue(0.0f);
+    Threshold.setRange(0.0f, 0.25f, 0.01f);
+    Threshold.setValue(processor.thresh);
     Threshold.addListener(this);
     
     addAndMakeVisible(&Mix);
     Mix.setSliderStyle(Slider::Rotary);
     Mix.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
     Mix.setTextValueSuffix(" Wet/Dry Mix");
-    Mix.setRange(0.0f, 1.0f, 0.001f);
-    Mix.setValue(0.0f);
+    Mix.setRange(0.0f, 1.0f, 0.01f);
+    Mix.setValue(processor.mix);
     Mix.addListener(this);
     
     addAndMakeVisible(&outGain);
     outGain.setSliderStyle(Slider::Rotary);
     outGain.setTextBoxStyle(Slider::TextBoxBelow, false, 140, 20);
     outGain.setTextValueSuffix(" Make-Up Gain");
+    outGain.setRange(0.0f, 3.0f, 0.01f);
+    outGain.setValue(processor.makeUp);
+    outGain.addListener(this);
+    
 }
 
 CatDistortionAudioProcessorEditor::~CatDistortionAudioProcessorEditor()
@@ -87,6 +96,16 @@ void CatDistortionAudioProcessorEditor::comboBoxChanged(ComboBox* comboBoxThatHa
 
 void CatDistortionAudioProcessorEditor::sliderValueChanged(Slider* sliderThatHasChanged)
 {
+    if (&inGain == sliderThatHasChanged)
+    {
+        processor.gain = sliderThatHasChanged->getValue();
+    }
+    
+    if (&outGain == sliderThatHasChanged)
+    {
+        processor.makeUp = sliderThatHasChanged->getValue();
+    }
+    
     if (&Mix == sliderThatHasChanged)
     {
         processor.mix = sliderThatHasChanged->getValue();
