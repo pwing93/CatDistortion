@@ -1,12 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
 
 #pragma once
 
@@ -54,14 +45,11 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-    
-    int menuChoice = 1;
-    float thresh = 0.0f;
-    float mix = 0.0f;
-    float gain = 1.0f;
-    float makeUp = 1.0f;
 
 private:
+    
+    AudioProcessorValueTreeState state;
+    std::atomic<float>* threshParam, *mixParam, *inParam, *outParam, *typeParam;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CatDistortionAudioProcessor)
 };
